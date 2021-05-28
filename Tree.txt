@@ -1,0 +1,414 @@
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Preorder Traversal ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+void preorder(Node* root,vector<int> &a)
+{
+            
+           if(root!=NULL){ a.push_back(root->data);
+            preorder(root->left,a);
+            preorder(root->right,a);}
+    
+}
+vector <int> preorder(Node* root)
+{
+        vector<int> ans;
+        preorder(root,ans);
+        return ans;
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Size Of Binary Tree:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+int getSize(Node* node)
+{
+   if(node==NULL) return 0;
+   else return (1+getSize(node->left)+getSize(node->right));
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Max and min element in Binary Tree :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+int findMax(struct node* root)
+{
+   if(root==NULL) return INT_MIN;
+   else return max(root->data,max(findMax(root->left),findMax(root->right)));
+}
+
+// Returns minimum value in a given Binary Tree
+int findMin(struct node* root)
+{
+   if(root==NULL) return INT_MAX;
+   else return min(root->data,min(findMin(root->left),findMin(root->right)));
+}
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Level order traversal Line by Line :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+vector<vector<int>> levelOrder(Node* node)
+{
+  vector<vector<int>> ans;
+       // if(node==NULL) return ans;
+        queue<Node*> q;
+        q.push(node);
+        q.push(NULL);
+        vector<int> temp;
+        while(q.size()>1)
+        {
+                Node *cur=q.front();
+                q.pop();
+                if(cur==NULL)
+                {
+                    ans.push_back(temp);
+                    temp.clear();
+                    q.push(NULL);
+                    continue;
+                }
+                temp.push_back(cur->data);
+                if(cur->left!=NULL) q.push(cur->left);
+                if(cur->right!=NULL) q.push(cur->right);
+            
+           
+        }
+        ans.push_back(temp);
+      return ans;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////spiral form////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<int> findSpiral(Node *node)
+{
+        vector<int> ans;
+        if(node==NULL) return ans;
+        queue<Node*> q;
+        q.push(node);
+        int c=0; bool f=0;
+        while(!q.empty())
+        {
+            int n=q.size();
+            vector<int> temp;
+            for(int i=0;i<n;i++)
+            {
+                c++;
+                Node *cur=q.front();
+                q.pop();
+                if(f)
+                temp.push_back(cur->data);
+                else ans.push_back(cur->data);
+                
+                if(cur->left!=NULL) q.push(cur->left);
+                if(cur->right!=NULL) q.push(cur->right);
+            }  
+            if(f)
+            { reverse(temp.begin(),temp.end());
+            
+            for(int i=0;i<temp.size();i++)  ans.push_back(temp[i]);}
+           if(c>1) f= !f;
+        }
+      return ans;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////zig-zag form/////////////////////////////////////////////////////////////////////////////////////////////////////
+vector <int> zigZagTraversal(Node* node)
+{
+	 vector<int> ans;
+        if(node==NULL) return ans;
+        queue<Node*> q;
+        q.push(node);
+         bool f=0;
+        while(!q.empty())
+        {
+            int n=q.size();
+            vector<int> temp;
+            for(int i=0;i<n;i++)
+            {
+              
+                Node *cur=q.front();
+                q.pop();
+                if(f)
+                temp.push_back(cur->data);
+                else ans.push_back(cur->data);
+                
+                if(cur->left!=NULL) q.push(cur->left);
+                if(cur->right!=NULL) q.push(cur->right);
+            }  
+            if(f)
+            { reverse(temp.begin(),temp.end());
+            
+            for(int i=0;i<temp.size();i++)  ans.push_back(temp[i]);}
+            f= !f;
+        }
+      return ans;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Maximum Width of Tree/////////////////////////////////////////////////////////////////////////////////////////////////////
+class Solution
+{
+    public:
+    //Function to get the maximum width of a binary tree.
+    int getMaxWidth(Node* node)
+    {
+        if(node==NULL) return 0;
+        int temp=INT_MIN;
+        queue<Node*> q;
+        q.push(node);
+        while(!q.empty())
+        {
+            int n=q.size();
+            temp=max(temp,n);
+            for(int i=0;i<n;i++)
+            {
+                Node *cur=q.front();
+                q.pop();
+                if(cur->left!=NULL) q.push(cur->left);
+                if(cur->right!=NULL) q.push(cur->right);
+            }  
+         
+        }
+        return temp;
+     
+    }
+};
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Height of Binary Tree :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+class Solution{
+    public:
+    int solve(struct Node* root){
+        if(root==NULL)
+        return 0;
+        
+        return max(solve(root->left),solve(root->right))+1;
+        
+    }
+    int height(struct Node* root){
+        int ans=solve(root);
+        return ans;
+    }
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////Diameter of Binary Tree////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Solution
+{
+    public:
+    int ans=INT_MIN;
+    int height(Node* root)
+    {
+        if(root==NULL) return 0;
+        int lh=height(root->left);
+        int rh=height(root->right);
+        
+         ans= max(lh+rh+1,ans);
+        
+        return (1+max(lh,rh));
+    }
+   
+    int diameter(Node* root)
+    {
+        int p=height(root);
+        return ans;
+    }
+
+};
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::VIEWS OF BINARY TREE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////Left View of Binary Tree////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int maxi;
+void print(Node *root,int level, vector<int> &ans)
+{
+    if(root==NULL) return;
+    if(maxi<level){ ans.push_back(root->data); maxi=level;}
+    print(root->left,level+1,ans);
+    print(root->right,level+1,ans);
+}
+vector<int> leftView(Node *root)
+{
+   vector<int> ans;
+   int level=1;
+   print(root,1,ans);
+   maxi=0;
+   return ans;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////Right View of Binary Tree////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int maxi;
+void print(Node *root,int level, vector<int> &ans)
+{
+    if(root==NULL) return;
+    if(maxi<level){ ans.push_back(root->data); maxi=level;}
+    print(root->right,level+1,ans);
+    print(root->left,level+1,ans);
+    
+    
+}
+class Solution
+{
+    public:
+    //Function to return list containing elements of right view of binary tree.
+    vector<int> rightView(Node *root)
+    {
+        vector<int> ans;
+        int level=1;
+        print(root,1,ans);
+        maxi=0;
+        return ans;
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////Top View of Binary Tree////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////Bottom View of Binary Tree/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Vertical Width of a Binary Tree::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+void solve(Node* root,int i,map<int,Node*> &mpp)
+{
+    if(root==NULL) return;
+    
+    mpp[i]=root;
+    solve(root->left,i-1,mpp);
+    solve(root->right,i+1,mpp);
+    
+}
+int verticalWidth(Node* root)
+{
+    map<int,Node*> mpp;
+    solve(root,0,mpp);
+    return mpp.size();
+}
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::CHILDREN SUM PARENT::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+int isSumProperty(Node *root)
+{
+    if(root==NULL) return 1;
+    if(root->left==NULL && root->right==NULL) return 1;
+    int sum=0;
+    if(root->left!=NULL) sum+=root->left->data;
+    if(root->right!=NULL) sum+=root->right->data;
+    return (sum==root->data && isSumProperty(root->left) && isSumProperty(root->right));
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Check for Balanced Tree:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+int solve(Node *root)
+{
+    if(root==NULL) return 0;
+    
+    int lh=solve(root->left);
+    if(lh==-1) return -1;
+    
+    int rh=solve(root->right);
+    if(rh==-1) return -1;
+    
+    if(abs(lh-rh)>1) return -1;
+    else return (max(lh,rh))+1;
+}
+bool isBalanced(Node *root)
+{
+    int t=solve(root);
+    if(t==-1) return false;
+     return true;
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Determine if Two Trees are Identical::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+class Solution
+{
+    public:
+    //Function to check if two trees are identical.
+    
+    bool isIdentical(Node *r1, Node *r2)
+    {
+        if (r1 == NULL && r2 == NULL) 
+        return true; 
+         if (r1 != NULL && r2!= NULL) {
+        return
+        (
+            r1->data==r2->data && isIdentical(r1->left,r2->left) &&
+            isIdentical(r1->right,r2->right)
+               
+        );
+         }
+        return false;
+    }
+};
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::LCA  in a Binary Tree :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+class Solution
+{
+    public:
+    //Function to return the lowest common ancestor in a Binary Tree.
+    Node* lca(Node* root ,int n1 ,int n2 )
+    {
+      if(root==NULL) return root;
+      if(root->data==n1 || root->data==n2) return root;
+      
+      Node* lca1=lca(root->left,n1,n2);
+      Node* lca2=lca(root->right,n1,n2);
+      
+      if(lca1!=NULL && lca2!=NULL) return root;
+      if(lca1!=NULL) return lca1;
+      else return lca2;
+      
+      
+    }
+};
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::/*Contruct Tree*/:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+----------------------------------------------------------------------------PreOrder - PostOrder-------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    int I = 0;
+
+    TreeNode* tree(vector<int> pre, vector<int> post, int is, int ie, map<int, int> &mpp)
+    {
+        if (is > ie) return NULL;
+
+        TreeNode* root = new TreeNode(pre[I]); I++;
+        if (is == ie) return root;
+        int PostIndex = mpp[pre[I]];
+
+        root->left = tree(pre, post, is, PostIndex, mpp);
+        root->right = tree(pre, post, PostIndex + 1, ie - 1, mpp);
+
+
+        return root;
+    }
+    TreeNode* constructFromPrePost(vector<int>& pre, vector<int>& post) {
+
+        int p = pre.size() - 1;
+        map<int, int> mpp;
+        for (int i = 0; i < p + 1; i++) mpp[post[i]] = i;
+        TreeNode *root = tree(pre, post, 0, p, mpp);
+        return root;
+
+    }
+};
+---------------------------------------------------------------------------From preOrder and InOrder-----------------------------------------------------------------------------------------------------------
+
+
+class Solution {
+public:
+    TreeNode* tree(vector<int> &in, vector<int> &pre, int is, int ie, int &I, map<int, int> &mpp)
+    {
+        if (is > ie) return NULL;
+
+        TreeNode* root = new TreeNode(pre[I++]);
+        int inIndex;
+        inIndex = mpp[root->val];
+
+        root->left = tree(in, pre, is, inIndex - 1, I, mpp);
+        root->right = tree(in, pre, inIndex + 1, ie, I, mpp);
+
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& pre, vector<int>& in) {
+        int p = pre.size();
+        map<int, int>mpp;
+        for (int i = 0; i < p; i++)
+            mpp[in[i]] = i;
+        p--;
+        int n = 0;
+        TreeNode *root = tree(in, pre, 0, p, n, mpp);
+        return root;
+    }
+};
+
+--------------------------------------------------------------------------------------------From postOrder and InOrder------------------------------------------------------------------------------------------
+
+
+Node* tree(int in[], int pre[], int is, int ie, int &I, map<int, int> &mpp)
+{
+    if (is > ie) return NULL;
+
+    Node* root = new Node(pre[I--]);
+    int inIndex;
+    inIndex = mpp[root->data];
+    root->right = tree(in, pre, inIndex + 1, ie, I, mpp);
+    root->left = tree(in, pre, is, inIndex - 1, I, mpp);
+
+    return root;
+}
+Node *buildTree(int in[], int post[], int n) {
+    int p = n - 1;
+    map<int, int>mpp;
+    for (int i = 0; i < n; i++)
+        mpp[in[i]] = i;
+    Node *root = tree(in, post, 0, n - 1, p, mpp);
+    return root;
+}
